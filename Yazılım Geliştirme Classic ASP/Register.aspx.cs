@@ -20,5 +20,6 @@ public partial class Register : System.Web.UI.Page
         commandRegister.Parameters.AddWithValue("@pname",tboxUsername.Text);
         commandRegister.Parameters.AddWithValue("@ppass",ShaHash.ComputeSha256Hash(tboxPassword.Text));
         commandRegister.ExecuteNonQuery();
+
     }
 }
