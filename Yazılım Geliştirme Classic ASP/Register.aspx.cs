@@ -10,9 +10,7 @@ public partial class Register : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        // Her kullanıcı için otomatik olarak session başlatılır. Bu session içerisine
-        // istediğimiz kadar değer açabiliriz. Ve bu değerleri tüm sayfalarda kullanabiliriz.
-        Session["LoggedUserName"] = "EmirOzdemir";
+      
     }
 
     protected void btnRegister_Click(object sender, EventArgs e)
@@ -22,9 +20,5 @@ public partial class Register : System.Web.UI.Page
         commandRegister.Parameters.AddWithValue("@pname",tboxUsername.Text);
         commandRegister.Parameters.AddWithValue("@ppass",ShaHash.ComputeSha256Hash(tboxPassword.Text));
         commandRegister.ExecuteNonQuery();
-
-
-
-        Response.Write(Session["LoggedUserName"].ToString());
     }
 }
