@@ -27,6 +27,7 @@ public partial class UpdateUser : System.Web.UI.Page
             }
             else
             {
+
                 string username = Request.QueryString["username"].ToString();
                 tboxUserName.Text = username;
             }

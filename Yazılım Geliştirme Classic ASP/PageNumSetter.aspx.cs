@@ -15,7 +15,7 @@ public partial class PageNumSetter : System.Web.UI.Page
         }
         else
         {
-            int pnum =Convert.ToInt32(Request.QueryString["pagenum"]);
+            int pnum = Convert.ToInt32(Request.QueryString["pagenum"]);
             Session["PageNum"] = pnum;
             Response.Redirect("Main.aspx");
         }

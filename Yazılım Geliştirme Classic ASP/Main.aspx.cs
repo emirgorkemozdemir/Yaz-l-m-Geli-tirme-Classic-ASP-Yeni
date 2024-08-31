@@ -9,7 +9,7 @@ using System.Web.UI.WebControls;
 
 public partial class Main : System.Web.UI.Page
 {
-    public void GetUsersByPageNumber(int pagenum=1)
+    public void GetUsersByPageNumber(int pagenum)
     {
         int upper_limit = pagenum * 5;
         int lower_limit = (pagenum - 1)*5;
@@ -60,15 +60,7 @@ public partial class Main : System.Web.UI.Page
             lblPages.Text += $"<span>  </span>";
         }
 
-        if (Convert.ToInt32(Session["PageNum"]) == 1)
-        {
-            GetUsersByPageNumber(1);
-        }
-        else
-        {
-            GetUsersByPageNumber(Convert.ToInt32(Session["PageNum"]));
-        }
-       
+        GetUsersByPageNumber(Convert.ToInt32(Session["PageNum"]));   
     }
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -78,9 +70,10 @@ public partial class Main : System.Web.UI.Page
         }
         else
         {
-            LoadUsers();
-
-
+            if (!Page.IsPostBack)
+            {
+                LoadUsers();
+            }
         }
     }
 
@@ -107,5 +100,10 @@ public partial class Main : System.Web.UI.Page
             ListView1.DataBind();
             dataReader.Close();
         }
+    }
+
+    protected void btnSend_Click(object sender, EventArgs e)
+    {
+
     }
 }

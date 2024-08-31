@@ -1,4 +1,5 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Main.aspx.cs" Inherits="Main" %>
+
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -8,10 +9,14 @@
 </head>
 <body>
 
-    <form id="form1" runat="server">
+    <form id="form1" runat="server" method="post">
         <asp:Button ID="btnLogout" runat="server" Text="Çıkış Yap" OnClick="btnLogout_Click" />
         <asp:TextBox ID="tboxFilter" runat="server" OnTextChanged="tboxFilter_TextChanged" AutoPostBack="true"></asp:TextBox>
+        <asp:TextBox ID="tboxUsername" runat="server"></asp:TextBox>
+        <asp:TextBox ID="tboxPassword" runat="server"></asp:TextBox>
+        <asp:Button ID="btnSend" runat="server" Text="Güncelle" OnClick="btnSend_Click" />
     </form>
+
 
     <table class="table table-responsive">
         <thead>
@@ -41,7 +46,7 @@
 
     </asp:Label>
 
-  
+
 </body>
 </html>
 
