@@ -3,13 +3,20 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
 public partial class Main : System.Web.UI.Page
 {
-    
-    private void GetUsersByPageNumber(int pagenum=1)
+
+    [WebMethod]
+    public static string GetWelcomeMessage()
+    {
+        return "Hello, welcome to the page!";
+    }
+
+    public void GetUsersByPageNumber(int pagenum=1)
     {
         int upper_limit = pagenum * 5;
         int lower_limit = (pagenum - 1)*5;
@@ -24,6 +31,44 @@ public partial class Main : System.Web.UI.Page
         ListView1.DataBind();
         dataReader.Close();
     }
+
+    private void LoadUsers()
+    {
+        lblPages.Text = "";
+
+        // Buradaki amaç kullanıcı sayısını tespit etmek. Ne kadar veri
+        // geldiğini bulup ona göre kaç sayfa yapacağımızı hesaplamak için 
+        // user_count'u kullanacağız.
+        int user_count = 0;
+        MyConnection.CheckConnection();
+        SqlCommand command_get_users = new SqlCommand("SELECT * FROM TableUser", MyConnection.connection);
+        SqlDataReader dataReader = command_get_users.ExecuteReader();
+
+        while (dataReader.Read())
+        {
+            user_count++;
+        }
+        dataReader.Close();
+
+
+        int page_num = 0;
+        if (user_count % 5 == 0)
+        {
+            page_num = user_count / 5;
+        }
+        else
+        {
+            page_num = (user_count / 5) + 1;
+        }
+
+        for (int i = 1; i <= page_num; i++)
+        {
+            lblPages.Text += $"<a href='#' OnClick=''>{i}</a>";
+            lblPages.Text += $"<span>  </span>";
+        }
+
+        GetUsersByPageNumber();
+    }
     protected void Page_Load(object sender, EventArgs e)
     {
         if(Convert.ToBoolean(Session["IsUserLogged"]) != true)
@@ -32,34 +77,7 @@ public partial class Main : System.Web.UI.Page
         }
         else
         {
-            int user_count = 0;
-            MyConnection.CheckConnection();
-            SqlCommand command_get_users = new SqlCommand("SELECT * FROM TableUser", MyConnection.connection);
-            SqlDataReader dataReader = command_get_users.ExecuteReader();
-
-            while (dataReader.Read())
-            {
-                user_count++;
-            }
-            dataReader.Close();
-
-            int page_num = 0;
-            if (user_count % 5 == 0)
-            {
-                page_num = user_count / 5;
-            }
-            else
-            {
-                page_num = (user_count / 5)+1;
-            }
-
-            for (int i = 1; i <= page_num; i++)
-            {
-                lblPages.Text += $"<a href='#'>{i}</a>";
-                lblPages.Text += $"<span>  </span>";
-            }
-
-            GetUsersByPageNumber();
+            LoadUsers();
         }
     }
 
@@ -71,13 +89,20 @@ public partial class Main : System.Web.UI.Page
 
     protected void tboxFilter_TextChanged(object sender, EventArgs e)
     {
-        MyConnection.CheckConnection();
-        SqlCommand command_get_users = new SqlCommand("SELECT * FROM TableUser WHERE UserName LIKE @pname", MyConnection.connection);
-        command_get_users.Parameters.AddWithValue("@pname","%"+tboxFilter.Text+"%");
-        SqlDataReader dataReader = command_get_users.ExecuteReader();
+        if (tboxFilter.Text=="")
+        {
+            LoadUsers();
+        }
+        else
+        {
+            MyConnection.CheckConnection();
+            SqlCommand command_get_users = new SqlCommand("SELECT * FROM TableUser WHERE UserName LIKE @pname", MyConnection.connection);
+            command_get_users.Parameters.AddWithValue("@pname", "%" + tboxFilter.Text + "%");
+            SqlDataReader dataReader = command_get_users.ExecuteReader();
 
-        ListView1.DataSource = dataReader;
-        ListView1.DataBind();
-        dataReader.Close();
+            ListView1.DataSource = dataReader;
+            ListView1.DataBind();
+            dataReader.Close();
+        }
     }
 }
