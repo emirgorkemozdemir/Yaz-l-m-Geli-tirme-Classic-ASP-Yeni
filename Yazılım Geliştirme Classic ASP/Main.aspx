@@ -38,8 +38,9 @@
         </tbody>
     </table>
 
-    <!-- Burayı html tablosuna dönüştürün. Tabloda thead ve tbody olsun. thead içerisinde
-         başlık kısımlar UserID ve UserName. tbody içerisinde ise bunların değerleri yazsın -->
+    <asp:Label ID="lblPages" runat="server" Text="">
+
+    </asp:Label>
 
 </body>
 </html>
