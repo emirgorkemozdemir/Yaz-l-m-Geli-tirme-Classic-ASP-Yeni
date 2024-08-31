@@ -9,7 +9,6 @@
 <body>
 
     <form id="form1" runat="server">
-         <asp:ScriptManager ID="ScriptMgr" runat="server" EnablePageMethods="true"></asp:ScriptManager>
         <asp:Button ID="btnLogout" runat="server" Text="Çıkış Yap" OnClick="btnLogout_Click" />
         <asp:TextBox ID="tboxFilter" runat="server" OnTextChanged="tboxFilter_TextChanged" AutoPostBack="true"></asp:TextBox>
     </form>
@@ -46,7 +45,4 @@
 </body>
 </html>
 
-<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.6.0.min.js"></script>
-<script type="text/javascript">
-   
-</script>
+

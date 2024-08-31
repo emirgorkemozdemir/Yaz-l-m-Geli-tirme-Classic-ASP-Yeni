@@ -25,6 +25,7 @@ public partial class Login : System.Web.UI.Page
         {
             Session["LoggedUserName"] = tboxUsername.Text;
             Session["IsUserLogged"] = true;
+            Session["PageNum"] = 1;
             dataReader.Close();
             Response.Redirect("Main.aspx");
         }

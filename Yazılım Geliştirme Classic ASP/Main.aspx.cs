@@ -9,13 +9,6 @@ using System.Web.UI.WebControls;
 
 public partial class Main : System.Web.UI.Page
 {
-
-    [WebMethod]
-    public static string GetWelcomeMessage()
-    {
-        return "Hello, welcome to the page!";
-    }
-
     public void GetUsersByPageNumber(int pagenum=1)
     {
         int upper_limit = pagenum * 5;
@@ -63,11 +56,19 @@ public partial class Main : System.Web.UI.Page
 
         for (int i = 1; i <= page_num; i++)
         {
-            lblPages.Text += $"<a href='#' OnClick=''>{i}</a>";
+            lblPages.Text += $"<a href='PageNumSetter.aspx?pagenum={i}'>{i}</a>";
             lblPages.Text += $"<span>  </span>";
         }
 
-        GetUsersByPageNumber();
+        if (Convert.ToInt32(Session["PageNum"]) == 1)
+        {
+            GetUsersByPageNumber(1);
+        }
+        else
+        {
+            GetUsersByPageNumber(Convert.ToInt32(Session["PageNum"]));
+        }
+       
     }
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -78,6 +79,8 @@ public partial class Main : System.Web.UI.Page
         else
         {
             LoadUsers();
+
+
         }
     }
 
